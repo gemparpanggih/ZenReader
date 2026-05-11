@@ -18,6 +18,7 @@ const el = {
     loader: document.getElementById('loader'),
     status: document.getElementById('status-text'),
     fileInput: document.getElementById('file-upload'),
+    controls: document.querySelector('.controls'),
     // Modal Elements
     modal: document.getElementById('custom-modal'),
     modalTitle: document.getElementById('modal-title'),
@@ -110,6 +111,7 @@ function resetApp() {
     el.readerView.style.display = 'none';
     el.footer.style.display = 'none';
     el.uploadView.style.display = 'flex';
+    el.controls.style.display = 'none';
     el.fileInput.value = '';
     el.content.innerHTML = '';
     el.tocList.innerHTML = '';
@@ -164,6 +166,7 @@ function processTextWithParagraphs(rawText) {
     el.uploadView.style.display = 'none';
     el.readerView.style.display = 'block';
     el.footer.style.display = 'flex';
+    el.controls.style.display = 'flex';
     goChapter(0, true);
 }
 
