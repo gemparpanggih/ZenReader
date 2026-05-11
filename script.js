@@ -142,7 +142,14 @@ function processTextWithParagraphs(rawText) {
     let currentWordCount = 0;
 
     paragraphs.forEach((para) => {
-        const wordsInPara = para.trim().split(/\s+/).length;
+        // Hitung jumlah karakter Mandarin (tiap karakter/Hanzi dihitung sebagai 1 kata)
+        const cjkChars = para.match(/[\u3400-\u9FFF]/g) || [];
+        
+        // Hapus karakter Mandarin, lalu sisa teks (alfabet/latin) dihitung berdasarkan spasi
+        const nonCjkText = para.replace(/[\u3400-\u9FFF]/g, ' ').trim();
+        const nonCjkWords = nonCjkText.length > 0 ? nonCjkText.split(/\s+/).length : 0;
+        
+        const wordsInPara = cjkChars.length + nonCjkWords;
         currentChapterHTML += `<p>${para.trim()}</p>`;
         currentWordCount += wordsInPara;
 
