@@ -1,7 +1,7 @@
 const state = {
     chapters: [],
     currIndex: 0,
-    wordsLimit: 500,
+    wordsLimit: 100,
     fontSize: 18,
     lineHeight: 1.8,
     theme: 'light'
