@@ -4,7 +4,8 @@ const state = {
     wordsLimit: 2949,
     fontSize: 18,
     lineHeight: 1.8,
-    theme: 'light'
+    theme: 'light',
+    bookTitle: ''
 };
 
 const el = {
@@ -12,6 +13,7 @@ const el = {
     uploadView: document.getElementById('upload-view'),
     readerView: document.getElementById('reader-view'),
     content: document.getElementById('reader-content'),
+    bookTitle: document.getElementById('book-title'),
     title: document.getElementById('chapter-title'),
     footer: document.getElementById('reader-footer'),
     tocList: document.getElementById('toc-list'),
@@ -108,6 +110,7 @@ document.getElementById('reset-btn').addEventListener('click', () => {
 function resetApp() {
     state.chapters = [];
     state.currIndex = 0;
+    state.bookTitle = '';
     el.readerView.style.display = 'none';
     el.footer.style.display = 'none';
     el.uploadView.style.display = 'flex';
@@ -115,6 +118,7 @@ function resetApp() {
     el.fileInput.value = '';
     el.content.innerHTML = '';
     el.tocList.innerHTML = '';
+    el.bookTitle.textContent = '';
     document.getElementById('progress-fill').style.width = '0%';
     document.title = "Zen Reader";
 }
@@ -126,7 +130,11 @@ function handleUpload(e) {
 
     el.loader.style.display = 'block';
     el.status.textContent = "Sedang memproses...";
-    document.title = file.name.replace('.txt', '') + " - Zen Reader";
+
+    const bookTitle = file.name.replace('.txt', '');
+    state.bookTitle = bookTitle;
+    el.bookTitle.textContent = bookTitle;
+    document.title = bookTitle + " - Zen Reader";
 
     const reader = new FileReader();
     reader.onload = (ev) => {
