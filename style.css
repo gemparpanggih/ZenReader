@@ -170,6 +170,13 @@
     padding: 2rem 2rem 1rem 2rem;
  }
 
+ #book-title {
+     font-size: 1.8rem;
+     margin-bottom: 1rem;
+     color: var(--text-main);
+     font-weight: 600;
+ }
+
  #chapter-title {
      font-size: 1.4rem;
      margin-bottom: 2.5rem;
