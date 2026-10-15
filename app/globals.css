@@ -1,0 +1,210 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Zen Reader — Design tokens (dark-first)
+   ============================================================ */
+
+:root {
+  /* App theme (dark-first) */
+  --bg: #0b0e14;
+  --surface: #121722;
+  --surface-2: #1a2130;
+  --line: #232b3b;
+  --txt: #e7eaf0;
+  --muted: #8b94a7;
+  --accent: #6c9fff;
+  --accent-soft: rgba(108, 159, 255, 0.12);
+  --danger: #f87171;
+  --danger-soft: rgba(248, 113, 113, 0.12);
+  --ok: #4ade80;
+
+  /* Reader chrome surfaces (per-theme, overridden below) */
+  --reader-bg: #0e1116;
+  --reader-surface: #151a22;
+  --reader-text: #c8cfdb;
+  --reader-muted: #7d8698;
+  --reader-border: #232a35;
+  --reader-accent: #6c9fff;
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-txt: var(--txt);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-ok: var(--ok);
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-serif: Georgia, "Times New Roman", "Noto Serif CJK SC", serif;
+}
+
+/* ---------- Reader themes ---------- */
+[data-reader-theme="dark"] {
+  --reader-bg: #0e1116;
+  --reader-surface: #151a22;
+  --reader-text: #c8cfdb;
+  --reader-muted: #7d8698;
+  --reader-border: #232a35;
+  --reader-accent: #6c9fff;
+}
+
+[data-reader-theme="sepia"] {
+  --reader-bg: #f3ead4;
+  --reader-surface: #eae0c8;
+  --reader-text: #4f3d28;
+  --reader-muted: #8d7a5f;
+  --reader-border: #d9caa8;
+  --reader-accent: #8a6a3b;
+}
+
+[data-reader-theme="light"] {
+  --reader-bg: #fbfaf8;
+  --reader-surface: #f2f0ec;
+  --reader-text: #26282d;
+  --reader-muted: #7a7f88;
+  --reader-border: #e0ddd6;
+  --reader-accent: #3b6fd4;
+}
+
+/* ---------- Base ---------- */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--txt);
+}
+
+/* Scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Focus rings */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- Reader content typography ---------- */
+.reader-content {
+  font-family: Georgia, "Times New Roman", "Noto Serif CJK SC", serif;
+  color: var(--reader-text);
+  text-align: justify;
+  hyphens: auto;
+}
+
+.reader-content p {
+  margin: 0 0 1.35em;
+}
+
+.reader-content h1,
+.reader-content h2,
+.reader-content h3,
+.reader-content h4,
+.reader-content h5,
+.reader-content h6 {
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.5;
+  margin: 1.8em 0 1.1em;
+  color: var(--reader-text);
+}
+
+.reader-content ul,
+.reader-content ol {
+  margin: 0 0 1.35em;
+  padding-left: 1.6em;
+}
+
+.reader-content blockquote {
+  margin: 0 0 1.35em;
+  padding: 0.2em 0 0.2em 1em;
+  border-left: 3px solid var(--reader-border);
+  color: var(--reader-muted);
+}
+
+.reader-content strong,
+.reader-content b {
+  font-weight: 700;
+}
+
+.reader-content em,
+.reader-content i {
+  font-style: italic;
+}
+
+.reader-content hr {
+  border: none;
+  border-top: 1px dashed var(--reader-border);
+  margin: 2em auto;
+  width: 40%;
+}
+
+/* ---------- Animations ---------- */
+@keyframes zr-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes zr-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zr-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.zr-fade-in {
+  animation: zr-fade-in 0.18s ease-out;
+}
+.zr-pop-in {
+  animation: zr-pop-in 0.2s ease-out;
+}
