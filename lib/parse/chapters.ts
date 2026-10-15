@@ -57,10 +57,12 @@ const DEFAULT_WORDS_PER_CHAPTER = 3000;
  * Split raw novel text into chapters.
  *
  * Paragraph detection:
- *  - If the file separates paragraphs with blank lines, consecutive
- *    non-empty lines are joined (handles hard-wrapped prose).
- *  - Otherwise every line is treated as its own paragraph (the format
- *    produced by most webnovel downloaders).
+ *  - When blank lines are the **dominant** separator (≥ 30% of text lines),
+ *    consecutive non-empty lines are joined into a paragraph (this is
+ *    hard-wrapped prose, e.g. converted PDFs/e-books).
+ *  - Otherwise every non-empty line stays its own paragraph (the format
+ *    produced by webnovel downloaders). A stray blank line here and there
+ *    must NOT collapse the file into one giant paragraph.
  *
  * Chapter detection: explicit heading lines ("Chapter 1", "第1章"…) or,
  * when no headings exist at all, fallback chunking by word count.
@@ -75,7 +77,17 @@ export function parseChapters(
   const text = rawText.replace(/\r\n?/g, "\n");
   if (!text.trim()) return [];
 
-  const hasBlankSeparators = /\n\s*\n/.test(text);
+  /* Dominance check: is blank-line separation the file's real structure,
+     or just an occasional empty line in an otherwise line-per-paragraph
+     webnovel dump? */
+  const splitLines = text.split("\n");
+  let textLines = 0;
+  let blankLines = 0;
+  for (const l of splitLines) {
+    if (l.trim()) textLines++;
+    else blankLines++;
+  }
+  const blankSeparated = blankLines / Math.max(1, textLines) >= 0.3;
 
   /* --- 1. group lines into paragraphs (headings always stand alone) --- */
   const paragraphs: string[][] = [];
@@ -86,7 +98,7 @@ export function parseChapters(
       buffer = [];
     }
   };
-  for (const raw of text.split("\n")) {
+  for (const raw of splitLines) {
     const line = raw.trim();
     if (!line) {
       flush();
@@ -95,7 +107,7 @@ export function parseChapters(
     if (detectHeading(line)) {
       flush();
       paragraphs.push([line]);
-    } else if (hasBlankSeparators) buffer.push(line);
+    } else if (blankSeparated) buffer.push(line);
     else paragraphs.push([line]);
   }
   flush();

@@ -131,17 +131,46 @@ describe("parseChapters — fallback chunking", () => {
     expect(chapters[0].words).toBeLessThanOrEqual(800);
   });
 
-  it("handles hard-wrapped paragraphs when blank lines exist", () => {
+  it("handles hard-wrapped paragraphs when blank lines dominate", () => {
     const text = [
-      "This is the first paragraph that",
-      "continues on the next line.",
+      "This is the first paragraph that wraps",
+      "onto the next physical line.",
       "",
-      "And this is the second paragraph.",
+      "And here is the second paragraph that",
+      "also wraps across two lines.",
+      "",
+      "A third paragraph, still wrapping",
+      "across lines.",
     ].join("\n");
     const chapters = parseChapters(text);
     expect(chapters[0].content).toContain(
-      "This is the first paragraph that continues on the next line."
+      "<p>This is the first paragraph that wraps onto the next physical line.</p>"
     );
+    expect(chapters[0].content).toContain(
+      "<p>And here is the second paragraph that also wraps across two lines.</p>"
+    );
+  });
+
+  it("keeps one paragraph per line when blank lines are only occasional", () => {
+    // The reported bug: a webnovel dump (one paragraph per line) with a
+    // stray blank line must NOT merge into a single giant paragraph.
+    const text = [
+      "第一卷 序章",
+      "这是第一个段落。",
+      "这是第二个段落。",
+      "这是第三个段落。",
+      "",
+      "第二章 开始",
+      "新的段落出现了。",
+    ].join("\n");
+    const chapters = parseChapters(text);
+    expect(chapters).toHaveLength(2);
+    // 3 paragraphs in the first chapter, each rendered as its own <p>.
+    expect((chapters[0].content.match(/<p>/g) ?? []).length).toBe(3);
+    expect(chapters[0].content).toContain("<p>这是第一个段落。</p>");
+    expect(chapters[0].content).toContain("<p>这是第二个段落。</p>");
+    // Paragraphs must NOT be glued together into one long piece of text.
+    expect(chapters[0].content).not.toContain("这是第一个段落。这是第二个段落。");
   });
 
   it("returns [] for empty input", () => {
