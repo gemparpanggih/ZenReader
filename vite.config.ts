@@ -1,5 +1,6 @@
 import { defineConfig, type Plugin } from "vite";
 import vinext from "vinext";
+import tailwindcss from "@tailwindcss/vite";
 import { cloudflare } from "@cloudflare/vite-plugin";
 import { vinextBundleFix } from "./scripts/fix-vinext-bundle.mjs";
 
@@ -20,6 +21,7 @@ const vinextBundleFixPlugin = {
 export default defineConfig({
   plugins: [
     vinext(),
+    tailwindcss(),
     cloudflare({
       viteEnvironment: {
         name: "rsc",
