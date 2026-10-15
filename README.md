@@ -1,6 +1,6 @@
 # 📚 Zen Reader
 
-A **local-first novel reader** built with Next.js — import novels from your device and read them with a clean, distraction-free interface. Everything stays in your browser; nothing is uploaded.
+A **local novel reader** built with Next.js — import novels from your device and read them with a clean, distraction-free interface. Everything stays in your browser; nothing is uploaded.
 
 ## Features
 
@@ -19,7 +19,7 @@ A **local-first novel reader** built with Next.js — import novels from your de
 
 Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Zustand · Dexie (IndexedDB) · pdf.js · JSZip · Vitest
 
-## Getting started
+## Quick Start
 
 ```bash
 npm install
