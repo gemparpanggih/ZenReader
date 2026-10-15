@@ -9,9 +9,14 @@
     "lint": "eslint",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "postinstall": "node scripts/sync-pdfjs-assets.mjs"
+    "postinstall": "node scripts/sync-pdfjs-assets.mjs",
+    "dev:vinext": "vite dev --port 3001",
+    "build:vinext": "vite build && node scripts/fix-vinext-bundle.mjs",
+    "start:vinext": "vite preview",
+    "deploy:vinext": "vinext-cloudflare deploy"
   },
   "dependencies": {
+    "@vinext/cloudflare": "^1.1.1",
     "dexie": "^4.4.6",
     "dexie-react-hooks": "^4.4.0",
     "dompurify": "^3.4.17",
@@ -20,17 +25,22 @@
     "lucide-react": "^1.57.0",
     "next": "16.4.1",
     "pdfjs-dist": "^6.4.299",
-    "react": "19.3.0",
-    "react-dom": "19.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-server-dom-webpack": "^19.3.1",
+    "vinext": "^1.2.0",
     "zustand": "^5.0.15"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^2.0.0-beta.v.0",
     "@tailwindcss/turbopack": "^4",
     "@types/dompurify": "^3.0.5",
     "@types/node": "^24.19.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.1.2",
+    "@vitejs/plugin-rsc": "^0.5.38",
+    "cf": "^1.0.0-beta.17",
     "eslint": "^9",
     "eslint-config-next": "16.4.1",
     "fake-indexeddb": "^6.2.5",
@@ -38,6 +48,8 @@
     "playwright": "^1.64.1",
     "tailwindcss": "^4",
     "typescript": "^5",
+    "vite": "^8.3.0",
     "vitest": "^5.0.4"
-  }
+  },
+  "type": "module"
 }
