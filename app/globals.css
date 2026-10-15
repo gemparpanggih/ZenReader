@@ -29,6 +29,38 @@
   color-scheme: dark;
 }
 
+/* App-wide light palette — set on <html> by ThemeSync (providers.tsx) */
+html[data-theme="light"] {
+  --bg: #f6f5f2;
+  --surface: #ffffff;
+  --surface-2: #eeede8;
+  --line: #e2e0da;
+  --txt: #1f2430;
+  --muted: #6b7280;
+  --accent: #3b6fd4;
+  --accent-soft: rgba(59, 111, 212, 0.12);
+  --danger: #dc2626;
+  --danger-soft: rgba(220, 38, 38, 0.1);
+  --ok: #16a34a;
+  color-scheme: light;
+}
+
+/* App-wide sepia palette */
+html[data-theme="sepia"] {
+  --bg: #f6efdd;
+  --surface: #fbf6e9;
+  --surface-2: #efe6cd;
+  --line: #ddd0ae;
+  --txt: #4a3b26;
+  --muted: #8d7a5f;
+  --accent: #8a6a3b;
+  --accent-soft: rgba(138, 106, 59, 0.14);
+  --danger: #c2410c;
+  --danger-soft: rgba(194, 65, 12, 0.12);
+  --ok: #15803d;
+  color-scheme: light;
+}
+
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
@@ -41,8 +73,11 @@
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
   --color-ok: var(--ok);
-  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
-  --font-serif: Georgia, "Times New Roman", "Noto Serif CJK SC", serif;
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI",
+    Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Noto Sans CJK SC", "Noto Sans SC", sans-serif;
+  --font-serif: Georgia, "Times New Roman", "Songti SC", "Noto Serif SC",
+    "Source Han Serif SC", "Noto Serif CJK SC", SimSun, serif;
 }
 
 /* ---------- Reader themes ---------- */
@@ -87,6 +122,7 @@ body {
   background: var(--bg);
   color: var(--txt);
   font-family: var(--font-sans);
+  transition: background-color 0.25s ease, color 0.25s ease;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
 }
@@ -122,7 +158,8 @@ body {
 
 /* ---------- Reader content typography ---------- */
 .reader-content {
-  font-family: Georgia, "Times New Roman", "Noto Serif CJK SC", serif;
+  font-family: Georgia, "Times New Roman", "Songti SC", "Noto Serif SC",
+    "Source Han Serif SC", "Noto Serif CJK SC", SimSun, serif;
   color: var(--reader-text);
   text-align: justify;
   hyphens: auto;

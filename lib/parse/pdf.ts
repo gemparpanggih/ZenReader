@@ -81,7 +81,14 @@ export async function parsePdf(
   await ensurePdfWorker();
 
   const data = await file.arrayBuffer();
-  const loadingTask = pdfjs.getDocument({ data });
+  const loadingTask = pdfjs.getDocument({
+    data,
+    // CJK PDFs often rely on Adobe CMaps (cMapPacked .bcmap files are
+    // copied to public/pdfjs/ by scripts/sync-pdfjs-assets.mjs).
+    cMapUrl: "/pdfjs/cmaps/",
+    cMapPacked: true,
+    standardFontDataUrl: "/pdfjs/standard_fonts/",
+  });
   const doc = await loadingTask.promise;
 
   try {

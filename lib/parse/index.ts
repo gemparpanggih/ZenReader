@@ -25,7 +25,10 @@ export async function parseFile(
     case "txt":
     case "md": {
       const { parseTxt } = await import("./txt");
-      return parseTxt(await file.text(), fallbackTitle);
+      const { decodeArrayBuffer } = await import("./encoding");
+      // Decode with GBK/Big5 fallback — many Chinese novels aren't UTF-8.
+      const text = decodeArrayBuffer(await file.arrayBuffer());
+      return parseTxt(text, fallbackTitle);
     }
     case "epub": {
       const { parseEpub, dedupeChapterTitles } = await import("./epub");

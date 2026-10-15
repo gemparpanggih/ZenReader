@@ -3,6 +3,7 @@ import { XMLParser } from "fast-xml-parser";
 import type { ParsedBook, ParsedChapter } from "../types";
 import { countWords } from "./chapters";
 import { sanitizeHtml } from "./html";
+import { decodeTextWithFallback } from "./encoding";
 
 const xmlParser = new XMLParser({
   ignoreAttributes: false,
@@ -204,7 +205,8 @@ export async function parseEpub(file: Blob, fallbackTitle: string): Promise<Pars
 
     let raw: string;
     try {
-      raw = await file.async("string");
+      // Decode with fallback chain (rare GBK/Big5 epubs exist).
+      raw = decodeTextWithFallback(new Uint8Array(await file.async("uint8array")));
     } catch {
       continue;
     }

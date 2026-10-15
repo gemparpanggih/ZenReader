@@ -112,4 +112,22 @@ describe("importBookFile → IndexedDB round trip", () => {
     expect(restored.theme).toBe("sepia");
     expect(restored.fontSize).toBe(24);
   });
+
+  it("imports a GBK-encoded Chinese novel correctly", async () => {
+    // "第一章 测试\n少年提剑而行。\n第二章 拜师\n他叩首三拜。\n" in GBK
+    const gbk = new Uint8Array([
+      181, 218, 210, 187, 213, 194, 32, 178, 226, 202, 212, 10, 201, 217, 196,
+      234, 204, 225, 189, 163, 182, 248, 208, 208, 161, 163, 10, 181, 218, 182,
+      254, 213, 194, 32, 176, 221, 202, 166, 10, 203, 251, 223, 181, 202, 215,
+      200, 253, 176, 221, 161, 163, 10,
+    ]);
+    const file = new File([gbk], "武侠小说.txt", { type: "text/plain" });
+    const book = await importBookFile(file);
+
+    const chapters = await db.chapters.where("bookId").equals(book.id).sortBy("index");
+    expect(chapters).toHaveLength(2);
+    expect(chapters[0].title).toBe("第一章 测试");
+    expect(chapters[0].content).toContain("少年提剑而行");
+    expect(chapters[0].content).not.toContain("\uFFFD");
+  });
 });

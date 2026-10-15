@@ -138,7 +138,7 @@ export default function SettingsPanel({
                   style={{
                     fontFamily:
                       f === "serif"
-                        ? "Georgia, 'Times New Roman', serif"
+                        ? "Georgia, 'Times New Roman', 'Songti SC', 'Noto Serif SC', 'Source Han Serif SC', 'Noto Serif CJK SC', SimSun, serif"
                         : "inherit",
                     borderColor:
                       settings.fontFamily === f

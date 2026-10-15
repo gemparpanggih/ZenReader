@@ -185,7 +185,8 @@ function Reader({
   const globalPct =
     ((chapterIndex + scrollPct / 100) / chapters.length) * 100;
 
-  const serif = "Georgia, 'Times New Roman', 'Noto Serif CJK SC', serif";
+  const serif =
+    "Georgia, 'Times New Roman', 'Songti SC', 'Noto Serif SC', 'Source Han Serif SC', 'Noto Serif CJK SC', SimSun, serif";
   const fontFamily = settings.fontFamily === "serif" ? serif : "inherit";
 
   return (
