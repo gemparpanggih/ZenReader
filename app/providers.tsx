@@ -4,10 +4,9 @@ import { useEffect } from "react";
 import { useReaderStore } from "@/store/readerStore";
 
 /**
- * Initializes persisted settings (reader prefs) once on app start and
- * mirrors the chosen reading theme onto <html data-theme="…"> so the
- * whole app (library, details, reader) follows the same light/dark/sepia
- * appearance instead of just the reader surface.
+ * Initializes persisted settings (reader prefs) once on app start.
+ * Reader themes are exclusive to the reading page — the rest of the app
+ * keeps the default dark palette, so nothing is mirrored onto <html>.
  */
 export default function AppProviders({
   children,
@@ -15,15 +14,10 @@ export default function AppProviders({
   children: React.ReactNode;
 }) {
   const init = useReaderStore((s) => s.init);
-  const theme = useReaderStore((s) => s.settings.theme);
 
   useEffect(() => {
     void init();
   }, [init]);
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-  }, [theme]);
 
   return <>{children}</>;
 }
